@@ -1,4 +1,4 @@
-# Luma — Buzzvel Front-End Engineer challenge (November 2026)
+| footer | −2 px | 2.1% | −1 px | 0.9% || final-cta | +1 px | 1.7% | +3 px | 1.7% || contact | +2 px | 1.7% | +2 px | 2.3% || people | 0 px | 2.7% | 0 px | 6.5% || testimonial | 0 px | 2.4% | +3 px | 3.3% || how-it-works | +1 px | 2.5% | −1 px | 1.6% || featured | 0 px | 2.0% | +2 px | 3.5% || categories | +1 px | 2.4% | −1 px | 1.5% || hero | 0 px | 0.9% | +2 px | 1.3% || header | 0 px | 1.1% | 0 px | 0.2% |# Luma — Buzzvel Front-End Engineer challenge (November 2026)
 
 A responsive landing page for **Luma**, an online-learning brand, built from the _Buzzvel FE Test 2026_ Figma file with **Next.js 16 (App Router), TypeScript and Tailwind CSS v4**.
 
@@ -96,7 +96,8 @@ I used it to close the gaps one section at a time, measuring element positions o
 - Mobile spacing in "people", "contact", "categories" and "footer".
 - The hero photo's mobile aspect ratio (346×380) and its decorative shapes.
 - The 1136 px content box Figma uses in "featured" and "testimonial".
-- The collage's left alignment and its separate horizontal/vertical scale on mobile.
+- The collage's left alignment, its own mobile scale (0.69 × 0.625), the 12 px column gap and per-column offsets measured on the mobile frame.
+- The mobile contact form card padding (24 px vertical) and textarea height (100 px), plus category card padding and the featured secondary button.
 
 Final result:
 
@@ -104,16 +105,16 @@ Final result:
 | --- | --- | --- | --- | --- |
 | header | 0 px | 1.1% | 0 px | 0.2% |
 | hero | 0 px | 0.9% | +2 px | 1.3% |
-| categories | +1 px | 2.4% | −5 px | 1.5% |
-| featured | 0 px | 2.0% | +6 px | 3.6% |
+| categories | +1 px | 2.4% | −1 px | 1.5% |
+| featured | 0 px | 2.0% | +2 px | 3.5% |
 | how-it-works | +1 px | 2.5% | −1 px | 1.6% |
 | testimonial | 0 px | 2.4% | +3 px | 3.3% |
-| people | 0 px | 2.7% | +3 px | 12.1% |
-| contact | +2 px | 1.7% | −6 px | 2.6% |
+| people | 0 px | 2.7% | 0 px | 6.5% |
+| contact | +2 px | 1.7% | +2 px | 2.3% |
 | final-cta | +1 px | 1.7% | +3 px | 1.7% |
 | footer | −2 px | 2.1% | −1 px | 0.9% |
 
-What remains is mostly font rasterisation: Figma and Chrome render text slightly differently. The mobile people collage is the exception. Figma's mobile frame resizes each photo individually, and only its outer column sizes were available to me. I approximated them with one horizontal and one vertical scale factor, so individual photos are a few pixels off.
+Every section is within 3 px of the Figma frame height at both widths. What remains is mostly font rasterisation: Figma and Chrome render text slightly differently. The mobile people collage is the highest at 6.5%. Its photo boxes were measured on the mobile export and match within 1–3 px; the rest is the crop of each photo inside its box.
 
 ## Quality checks
 

@@ -173,10 +173,11 @@ const photo = (
   displayHeight: display[1],
 });
 
-/** Collage layout copied from the Figma frame (column offsets and photo sizes in px). */
+/** Collage layout copied from the Figma frames (column offsets and photo sizes in px). */
 export const peopleCollage: CollageColumn[] = [
   {
     offsetTop: 64.2,
+    offsetTopMobile: 48,
     align: "end",
     photos: [
       photo("people-01.jpg", "Girl raising her hand during an online class", [1880, 1255], [102.72, 154.08]),
@@ -185,6 +186,7 @@ export const peopleCollage: CollageColumn[] = [
   },
   {
     offsetTop: 25.68,
+    offsetTopMobile: 0,
     align: "start",
     photos: [
       photo("people-03.jpg", "Student in a hoodie reading a book in a library", [1880, 1253], [102.72, 170.13]),
@@ -194,6 +196,7 @@ export const peopleCollage: CollageColumn[] = [
   },
   {
     offsetTop: 0,
+    offsetTopMobile: 0,
     align: "start",
     photos: [
       photo("people-06.jpg", "Graduate in cap and gown holding a diploma", [859, 1300], [102.72, 137.23]),
@@ -203,6 +206,7 @@ export const peopleCollage: CollageColumn[] = [
   },
   {
     offsetTop: 0,
+    offsetTopMobile: 0,
     align: "start",
     photos: [
       photo("people-09.jpg", "Student with curly hair holding notebooks in front of a university", [1880, 1253], [128.4, 204.64]),

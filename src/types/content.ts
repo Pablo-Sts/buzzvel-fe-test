@@ -57,8 +57,10 @@ export interface CollagePhoto extends ImageAsset {
 }
 
 export interface CollageColumn {
-  /** Top offset of the column in design pixels (desktop). */
+  /** Top offset of the column in design pixels (desktop frame). */
   offsetTop: number;
+  /** Top offset of the column in the mobile frame, in px (the mobile layout is not a uniform scale). */
+  offsetTopMobile: number;
   align: "start" | "end";
   photos: CollagePhoto[];
 }

@@ -50,7 +50,7 @@ export function FeaturedCourse({ id, course }: FeaturedCourseProps) {
             <Button
               href={course.secondaryAction.href}
               variant="ghost-light"
-              className="px-4"
+              className="px-4 max-sm:py-3"
               icon={<ArrowRightIcon />}
             >
               {course.secondaryAction.label}
