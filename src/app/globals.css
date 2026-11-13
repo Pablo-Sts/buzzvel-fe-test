@@ -1,0 +1,180 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens taken from the Figma variables of "Buzzvel FE - Test 2026".
+ * Colour names follow the Figma variable names (typos fixed).
+ */
+@theme {
+  --color-ink: #171b2c; /* text-primary / background-darkblue */
+  --color-ink-secondary: #656770; /* text-secondary */
+  /* text-tertiary is #6d7384 in Figma (4.45:1 on the warm background); nudged to pass WCAG AA (4.65:1). */
+  --color-ink-tertiary: #6a7081;
+  --color-on-dark: #ffffff; /* text-white-primary */
+  --color-on-dark-secondary: #e7e7ec; /* text-white-secondary */
+  --color-on-dark-tertiary: #9e9faa; /* text-white-tertiary */
+
+  --color-brand: #3157f6; /* primary-blue */
+  --color-brand-strong: #1f43dc; /* hover state for primary-blue (not in Figma) */
+  --color-brand-soft: #e2e8ff; /* primary-blue-light */
+  --color-accent: #ff704d; /* primary-orange */
+  --color-accent-soft: #ffcb9f; /* background-orange */
+  --color-highlight: #ffee7e; /* secondary-yellow */
+  --color-highlight-dot: #e9d659;
+
+  --color-surface: #ffffff; /* background-white */
+  --color-surface-warm: #f9f8f3; /* background-light-yellow */
+  --color-surface-yellow: #fff1c2; /* background-yellow */
+  --color-line: #dbdfeb; /* line-1 */
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-jakarta), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-float: 0 4px 12px rgb(0 0 0 / 0.1);
+  --shadow-card: 0 12px 16px rgb(23 27 44 / 0.04);
+  --shadow-photo: 0 3.21px 4.815px rgb(0 0 0 / 0.1), 0 0 3.21px rgb(0 0 0 / 0.07);
+}
+
+/*
+ * Typography scale (Figma text styles). Each utility holds the mobile style
+ * and switches to the desktop style from the `lg` breakpoint.
+ */
+@utility text-display-1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 2.5rem; /* Mobile/H1 40/44 */
+  line-height: 2.75rem;
+  letter-spacing: -1px;
+  @media (width >= 64rem) {
+    font-size: 4rem; /* Desktop/H1 64/70 */
+    line-height: 4.375rem;
+    letter-spacing: -1.6px;
+  }
+}
+
+@utility text-display-2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 2.25rem; /* Mobile/H2 36/40 */
+  line-height: 2.5rem;
+  letter-spacing: -0.9px;
+  @media (width >= 64rem) {
+    font-size: 3.5rem; /* Desktop/H2 56/64 */
+    line-height: 4rem;
+    letter-spacing: -1.4px;
+  }
+}
+
+@utility text-display-3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 2rem; /* Mobile/H3 32/36 */
+  line-height: 2.25rem;
+  letter-spacing: -0.8px;
+  @media (width >= 64rem) {
+    font-size: 3rem; /* Desktop/H3 48/56 */
+    line-height: 3.5rem;
+    letter-spacing: -1.2px;
+  }
+}
+
+@utility text-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem; /* H5 20/28 → 20/32 */
+  line-height: 1.75rem;
+  @media (width >= 64rem) {
+    line-height: 2rem;
+  }
+}
+
+@utility text-quote {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.25rem; /* Mobile/quotes 20/32 */
+  line-height: 2rem;
+  @media (width >= 64rem) {
+    font-size: 1.875rem; /* Desktop/quotes 30/44 */
+    line-height: 2.75rem;
+    letter-spacing: -0.75px;
+  }
+}
+
+@utility text-lead {
+  font-size: 1rem; /* Mobile/subtitle 1 16/26 */
+  line-height: 1.625rem;
+  @media (width >= 64rem) {
+    font-size: 1.125rem; /* Desktop/subtitle 1 18/28 */
+    line-height: 1.75rem;
+  }
+}
+
+@utility text-body-lg {
+  font-size: 0.875rem; /* Mobile/subtitle 2 14/24 */
+  line-height: 1.5rem;
+  @media (width >= 64rem) {
+    font-size: 1rem; /* Desktop/subtitle 2 16/28 */
+    line-height: 1.75rem;
+  }
+}
+
+@utility text-body {
+  font-size: 0.875rem; /* body 1 14/24 */
+  line-height: 1.5rem;
+}
+
+@utility text-overline {
+  font-size: 0.75rem; /* Overline 12/16, tracking 1.44 */
+  line-height: 1rem;
+  font-weight: 600;
+  letter-spacing: 1.44px;
+  text-transform: uppercase;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem; /* keeps anchored sections clear of the sticky header */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@utility animate-float {
+  animation: float 6s ease-in-out infinite;
+}
