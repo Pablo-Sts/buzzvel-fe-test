@@ -27,14 +27,14 @@ export function FinalCta({ title, description, avatars, primaryAction, secondary
       <Decorations />
       <Container className="relative flex max-w-[720px] flex-col items-center text-center lg:px-8">
         <AvatarStack avatars={avatars} size={40} ringClassName="border-highlight" />
-        {/* Desktop spacing follows the Figma boxes (94px heading, 43px paragraph). */}
-        <Heading id="cta-title" size="display-2" className="mt-8 lg:mt-[30px]">
+        {/* Desktop spacing follows the Figma boxes, which clip the heading to 94px and the paragraph to 43px. */}
+        <Heading id="cta-title" size="display-2" className="mt-8">
           {title}
         </Heading>
         <Text size="lead" className="mt-4 text-ink-secondary lg:mt-[15px]">
           {description}
         </Text>
-        <div className="mt-10 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+        <div className="mt-10 flex w-full flex-col gap-3 sm:w-auto sm:flex-row lg:mt-[38px]">
           <Button href={primaryAction.href} className="w-full sm:w-auto">
             {primaryAction.label}
           </Button>

@@ -35,7 +35,7 @@ export function Contact({ id, eyebrow, title, description, formTitle, formDescri
           </ul>
         </div>
 
-        <div className="rounded-2xl border border-line bg-surface px-5 py-6 shadow-card sm:p-10 lg:w-[540px] lg:shrink-0">
+        <div className="rounded-2xl border border-line bg-surface px-5 py-6 shadow-card sm:p-[39px] lg:w-[540px] lg:shrink-0">
           <Heading as="h3" size="title" id="contact-form-title">
             {formTitle}
           </Heading>

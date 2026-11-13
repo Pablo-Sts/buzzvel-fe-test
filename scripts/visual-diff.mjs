@@ -85,7 +85,11 @@ async function compareSection(page, viewportName, name, selector, outDir) {
   const box = await element.boundingBox();
   const shot = await element.screenshot({ animations: "disabled" });
 
-  const reference = await decode(referenceBuffer);
+  // Frames without their own fill export with a transparent background (it comes
+  // from a parent frame in Figma): flatten them onto the page's background colour.
+  const { data: corner } = await sharp(shot).extract({ left: 0, top: 0, width: 1, height: 1 }).raw().toBuffer({ resolveWithObject: true });
+  const background = { r: corner[0], g: corner[1], b: corner[2] };
+  const reference = await decode(await sharp(referenceBuffer).flatten({ background }).png().toBuffer());
   const scale = reference.width / Math.round(box.width);
   // Desktop references exported at 0.8x: scale the render to the reference width.
   const actualBuffer =

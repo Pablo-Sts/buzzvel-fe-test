@@ -13,7 +13,7 @@ export function CategoryCard({ category, index }: CategoryCardProps) {
   return (
     <a
       href={category.href}
-      className="group flex w-full flex-col justify-between gap-5 rounded-2xl border border-line bg-surface px-6 pt-6 pb-[21px] transition-[border-color,box-shadow,transform] duration-200 hover:border-brand/40 hover:shadow-card motion-safe:hover:-translate-y-1 lg:min-h-[260px] lg:gap-6 lg:p-7"
+      className="group flex w-full flex-col justify-between gap-5 rounded-2xl border border-line bg-surface px-6 pt-6 pb-[21px] transition-[border-color,box-shadow,transform] duration-200 hover:border-brand/40 hover:shadow-card motion-safe:hover:-translate-y-1 lg:min-h-[260px] lg:gap-6 lg:px-7 lg:pt-7 lg:pb-[27px]"
     >
       <div>
         <span className="inline-flex rounded-md bg-brand-soft px-2 py-1 text-overline text-brand" aria-hidden="true">

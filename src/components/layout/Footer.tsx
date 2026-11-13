@@ -40,7 +40,8 @@ export function Footer({ tagline, copyright, columns }: FooterProps) {
           ))}
         </div>
 
-        <div className="mt-9 border-t border-ink-secondary pt-6 lg:mt-16">
+        {/* Desktop: the link grid row is 166px in Figma (2px taller than its content), then 64px margin. */}
+        <div className="mt-9 border-t border-ink-secondary pt-6 lg:mt-[66px]">
           <p className="text-center text-[13px] leading-[19.5px] text-on-dark-secondary lg:text-left">{copyright}</p>
         </div>
       </Container>
