@@ -14,8 +14,11 @@
  *   - <section>.diff.png     differing pixels in red over a faded reference
  *   - <section>.overlay.png  50% onion-skin of reference and render
  *
- * Reference images live in design/reference/<viewport>/<section>.png (exported
- * from Figma; desktop sections may be exported at 0.8x, renders are scaled to match).
+ * and saves the numbers to design/visual-diff-report.json.
+ *
+ * Reference images live in design/reference/<viewport>/<section>.png: 1x PNG
+ * exports of the Figma section frames. design/reference/README.md lists which
+ * frame goes in which file and how to export them.
  */
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -79,7 +82,10 @@ function toSharedArea(a, b) {
 async function compareSection(page, viewportName, name, selector, outDir) {
   const referencePath = path.join(root, "design/reference", viewportName, `${name}.png`);
   const referenceBuffer = await readFile(referencePath).catch(() => null);
-  if (!referenceBuffer) return { section: name, note: "no reference" };
+  if (!referenceBuffer) {
+    const expected = path.relative(root, referencePath).split(path.sep).join("/");
+    return { section: name, note: `missing ${expected} (see design/reference/README.md)` };
+  }
 
   const element = page.locator(selector).first();
   const box = await element.boundingBox();
@@ -165,8 +171,10 @@ async function run() {
   }
 
   await browser.close();
-  await writeFile(path.join(root, "design/diff/report.json"), JSON.stringify(results, null, 2));
-  console.log("\nDiff images written to design/diff/");
+  // Numbers only (no design imagery), so the report can be committed as evidence.
+  const report = { generatedAt: new Date().toISOString(), url: baseUrl, viewports: results };
+  await writeFile(path.join(root, "design/visual-diff-report.json"), `${JSON.stringify(report, null, 2)}\n`);
+  console.log("\nReport: design/visual-diff-report.json · diff images: design/diff/");
 }
 
 run().catch((error) => {

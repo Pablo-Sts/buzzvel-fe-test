@@ -37,6 +37,12 @@ src/
   types/              content contracts shared by the data layer and the UI
   data/               mock content for the page
 public/images/        photos exported from the Figma file
+scripts/
+  visual-diff.mjs     pixel-perfect check: site vs. Figma exports (Playwright + pixelmatch)
+design/
+  reference/          Figma exports for the check (PNGs not committed; README.md explains how to export them)
+  diff/               generated diff/overlay images (not committed)
+  visual-diff-report.json   numbers from the last run
 ```
 
 ## Key decisions
@@ -81,14 +87,33 @@ public/images/        photos exported from the Figma file
 
 `pnpm visual-diff` compares the rendered page with the Figma frames, section by section. It works like a visual regression test, with the design as the baseline:
 
-1. Figma exports of each section go in `design/reference/{desktop,mobile}/<section>.png`. They are not committed, because the test design is confidential. Export at 1x for exact numbers. Other scales work too, since the script resizes the render to the reference width. Frames without their own fill export transparent; the script flattens them onto the page background.
-2. Playwright (system Chrome) opens the page at the frame widths (1280 px and 402 px) with animations frozen, fonts loaded and every lazy image decoded. It then screenshots each section element.
-3. For each section the script reports the **height delta** against the Figma frame (layout and spacing drift) and the **share of mismatched pixels** (pixelmatch, anti-aliasing ignored). It also writes `*.diff.png` (red pixels) and `*.overlay.png` (50% onion skin) to `design/diff/`.
+1. **Reference images.** Each Figma section frame is exported as a 1x PNG to `design/reference/{desktop,mobile}/<section>.png`.
+2. **Capture.** Playwright (system Chrome) opens the site at the frame widths (1280 px and 402 px). Animations are frozen, fonts are loaded and every lazy image is decoded. It then screenshots each section element.
+3. **Compare.** For each section, the script reports the **height delta** against the Figma frame (layout and spacing drift) and the **share of mismatched pixels** (pixelmatch, anti-aliasing ignored).
+4. **Output.** It writes `*.diff.png` (red pixels) and `*.overlay.png` (50% onion skin) to `design/diff/`, and the numbers to [`design/visual-diff-report.json`](design/visual-diff-report.json). The report is committed as evidence of the last run.
 
-```bash
-pnpm build && pnpm start      # or pnpm dev
-pnpm visual-diff --url=http://localhost:3000 [--only=mobile] [--section=hero]
-```
+### Running it yourself
+
+The Figma exports are **not committed**, because the test design is confidential. To reproduce the check:
+
+1. Export the ten section frames of each breakpoint from Figma: select the frame, then **Export → 1x → PNG**. View-only access is enough.
+2. Save them with the expected file names:
+
+   ```
+   design/reference/desktop/   header.png  hero.png  categories.png  featured.png  how-it-works.png
+                               testimonial.png  people.png  contact.png  final-cta.png  footer.png
+   design/reference/mobile/    (same ten names, from the "FE - Mobile" frame)
+   ```
+
+   [`design/reference/README.md`](design/reference/README.md) maps every file name to its Figma frame, for example `featured.png` → *FE - Desktop → App → Main Content → FeaturedCourse*.
+3. Run the site and the script:
+
+   ```bash
+   pnpm build && pnpm start      # or pnpm dev
+   pnpm visual-diff --url=http://localhost:3000 [--only=mobile] [--section=hero]
+   ```
+
+Missing files are skipped, and the output names the expected path. Transparent exports, from frames without their own fill, are flattened onto the page background.
 
 I used it to close the gaps one section at a time, measuring element positions on the reference images rather than eyeballing:
 
@@ -122,7 +147,8 @@ On desktop, every section matches the Figma height within 1 px (the remaining pi
 ## Quality checks
 
 - `pnpm lint`, `pnpm typecheck`, `pnpm test` (9 tests) and `pnpm build` all pass.
-- Checked visually against the Figma screenshots at 1280, 768 and 402 px, with no horizontal scroll at any width.
+- **Design fidelity, measured.** `pnpm visual-diff` compared every section against 1x Figma exports at 1280 and 402 px; see [Pixel-perfect check](#pixel-perfect-check). On desktop every section is within 1 px of the Figma height with at most 1.8% mismatched pixels. On mobile every section is within 3 px. The last run's numbers are in [`design/visual-diff-report.json`](design/visual-diff-report.json).
+- **Tablet (768 px), checked visually.** The design has no tablet frame, so I reviewed it in the browser and confirmed there is no horizontal scroll at any width.
 - Checked keyboard-only navigation of the menu and form.
 - Lighthouse on the production build (`pnpm build && pnpm start`, local, headless Chrome):
 
@@ -157,8 +183,10 @@ I used **Claude Code** (Anthropic) as a pair programmer throughout:
 
 - **Reading the design.** Claude used the **Figma MCP server** to read the file structure, variables (colours and text styles) and per-section reference code, and to download the exact image and SVG assets. That is how the tokens and measurements were taken, rather than eyeballing screenshots.
 - **Scaffolding and implementation.** Claude helped write the components, hooks, tests and this README, following the architecture rules I set: SOLID, presentation-only components, logic in hooks and `lib`, Server Components by default, and our own `ui/` folder.
+- **Pixel-perfect validation.** Claude wrote `scripts/visual-diff.mjs` (Playwright + pixelmatch) to compare the site with the Figma exports. It also measured element positions on the reference images, such as content bands and photo rectangles, to find each drift. I exported the Figma frames at 1x and reviewed every fix against the diff and overlay images.
 - **How I checked the output.**
-  - Compared every section side by side with the Figma screenshots at desktop, tablet and mobile widths in a browser.
+  - Ran `pnpm visual-diff` after each change, until every section matched the Figma frames (numbers in [`design/visual-diff-report.json`](design/visual-diff-report.json)).
+  - Compared the page side by side with the design at desktop, tablet and mobile widths in a browser.
   - Exercised the menu and the form with the keyboard.
   - Ran lint, type-check, unit tests, the production build and Lighthouse.
   - Reviewed the code so I can explain every part of it.

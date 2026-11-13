@@ -1,0 +1,150 @@
+{
+  "generatedAt": "2026-11-13T20:28:31.102Z",
+  "url": "http://localhost:3100",
+  "viewports": {
+    "desktop": [
+      {
+        "section": "header",
+        "figma (px)": "1280×70",
+        "render (px)": "1280×70",
+        "height Δ": 0,
+        "mismatch %": 1.07
+      },
+      {
+        "section": "hero",
+        "figma (px)": "1280×720",
+        "render (px)": "1280×720",
+        "height Δ": 0,
+        "mismatch %": 0.96
+      },
+      {
+        "section": "categories",
+        "figma (px)": "1280×721",
+        "render (px)": "1280×721",
+        "height Δ": 0,
+        "mismatch %": 1.18
+      },
+      {
+        "section": "featured",
+        "figma (px)": "1280×646",
+        "render (px)": "1280×646",
+        "height Δ": 0,
+        "mismatch %": 0.61
+      },
+      {
+        "section": "how-it-works",
+        "figma (px)": "1280×627",
+        "render (px)": "1280×627",
+        "height Δ": 0,
+        "mismatch %": 0.58
+      },
+      {
+        "section": "testimonial",
+        "figma (px)": "1280×525",
+        "render (px)": "1280×525",
+        "height Δ": 0,
+        "mismatch %": 0.86
+      },
+      {
+        "section": "people",
+        "figma (px)": "1280×723",
+        "render (px)": "1280×722",
+        "height Δ": -1,
+        "mismatch %": 1.76
+      },
+      {
+        "section": "contact",
+        "figma (px)": "1280×796",
+        "render (px)": "1280×796",
+        "height Δ": 0,
+        "mismatch %": 0.77
+      },
+      {
+        "section": "final-cta",
+        "figma (px)": "1280×470",
+        "render (px)": "1280×471",
+        "height Δ": 1,
+        "mismatch %": 0.31
+      },
+      {
+        "section": "footer",
+        "figma (px)": "1280×395",
+        "render (px)": "1280×395",
+        "height Δ": 0,
+        "mismatch %": 0.79
+      }
+    ],
+    "mobile": [
+      {
+        "section": "header",
+        "figma (px)": "402×69",
+        "render (px)": "402×69",
+        "height Δ": 0,
+        "mismatch %": 0.19
+      },
+      {
+        "section": "hero",
+        "figma (px)": "402×1044",
+        "render (px)": "402×1046",
+        "height Δ": 2,
+        "mismatch %": 1.27
+      },
+      {
+        "section": "categories",
+        "figma (px)": "402×1297",
+        "render (px)": "402×1296",
+        "height Δ": -1,
+        "mismatch %": 1.48
+      },
+      {
+        "section": "featured",
+        "figma (px)": "402×888",
+        "render (px)": "402×890",
+        "height Δ": 2,
+        "mismatch %": 3.49
+      },
+      {
+        "section": "how-it-works",
+        "figma (px)": "402×1001",
+        "render (px)": "402×1000",
+        "height Δ": -1,
+        "mismatch %": 1.59
+      },
+      {
+        "section": "testimonial",
+        "figma (px)": "402×523",
+        "render (px)": "402×526",
+        "height Δ": 3,
+        "mismatch %": 3.27
+      },
+      {
+        "section": "people",
+        "figma (px)": "402×790",
+        "render (px)": "402×790",
+        "height Δ": 0,
+        "mismatch %": 6.48
+      },
+      {
+        "section": "contact",
+        "figma (px)": "402×1096",
+        "render (px)": "402×1098",
+        "height Δ": 2,
+        "mismatch %": 2.3
+      },
+      {
+        "section": "final-cta",
+        "figma (px)": "402×469",
+        "render (px)": "402×472",
+        "height Δ": 3,
+        "mismatch %": 1.66
+      },
+      {
+        "section": "footer",
+        "figma (px)": "402×622",
+        "render (px)": "402×621",
+        "height Δ": -1,
+        "mismatch %": 0.92
+      }
+    ]
+  }
+}
