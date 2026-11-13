@@ -18,7 +18,14 @@ export function Contact({ id, eyebrow, title, description, formTitle, formDescri
     <Section id={id} aria-labelledby="contact-title">
       <Container className="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex flex-col gap-8 lg:w-[480px] lg:gap-10">
-          <SectionHeader eyebrow={eyebrow} title={title} titleId="contact-title" description={description} />
+          <SectionHeader
+            eyebrow={eyebrow}
+            title={title}
+            titleId="contact-title"
+            description={description}
+            // Mobile frame sets this paragraph in body 1 (14/24) instead of subtitle 1.
+            descriptionClassName="max-lg:text-body"
+          />
           <ul className="flex flex-col gap-4">
             {channels.map((channel) => (
               <li key={channel.label}>

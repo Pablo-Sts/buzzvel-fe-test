@@ -19,10 +19,10 @@ export function StepItem({ step, number, isFirst }: StepItemProps) {
     >
       <StepIcon variant={step.icon} />
       <p className="mt-6 text-overline text-ink-tertiary">Step {String(number).padStart(2, "0")}</p>
-      <Heading as="h3" size="title" className="mt-2">
+      <Heading as="h3" size="title" className="mt-2.5 lg:mt-2">
         {step.title}
       </Heading>
-      <Text size="body-lg" className="mt-3 text-ink-secondary">
+      <Text size="body-lg" className="mt-3.5 text-ink-secondary lg:mt-3">
         {step.description}
       </Text>
     </li>

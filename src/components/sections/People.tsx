@@ -14,20 +14,21 @@ interface PeopleProps {
 export function People({ id, eyebrow, title, description, action, collage }: PeopleProps) {
   return (
     <Section id={id} tone="warm" aria-labelledby="people-title" className="overflow-x-clip">
-      <Container className="flex flex-col gap-[60px] lg:flex-row lg:items-center">
+      <Container className="flex flex-col gap-8 lg:flex-row lg:items-center lg:gap-[60px]">
         <div className="flex flex-col items-start lg:flex-1">
           <Overline>{eyebrow}</Overline>
           <Heading id="people-title" className="mt-2">
             {title}
           </Heading>
-          <Text size="lead" className="mt-8 text-ink-secondary">
+          {/* Mobile frame uses text-primary for this paragraph, desktop uses text-secondary. */}
+          <Text size="lead" className="mt-6 text-ink lg:mt-8 lg:text-ink-secondary">
             {description}
           </Text>
-          <Button href={action.href} variant="secondary" className="mt-8">
+          <Button href={action.href} variant="secondary" className="mt-6 lg:mt-8">
             {action.label}
           </Button>
         </div>
-        <div className="flex justify-center lg:flex-1">
+        <div className="flex lg:flex-1">
           <PhotoCollage columns={collage} />
         </div>
       </Container>

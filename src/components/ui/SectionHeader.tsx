@@ -9,11 +9,21 @@ interface SectionHeaderProps {
   titleId: string;
   description?: ReactNode;
   align?: "start" | "center";
+  /** Overrides the lead paragraph style where a frame uses a different text style. */
+  descriptionClassName?: string;
   className?: string;
 }
 
 /** Eyebrow + heading + optional lead paragraph, the opening block of most sections. */
-export function SectionHeader({ eyebrow, title, titleId, description, align = "start", className }: SectionHeaderProps) {
+export function SectionHeader({
+  eyebrow,
+  title,
+  titleId,
+  description,
+  align = "start",
+  descriptionClassName,
+  className,
+}: SectionHeaderProps) {
   return (
     <div className={cn("flex flex-col", align === "center" && "items-center text-center", className)}>
       <Overline>{eyebrow}</Overline>
@@ -21,7 +31,7 @@ export function SectionHeader({ eyebrow, title, titleId, description, align = "s
         {title}
       </Heading>
       {description ? (
-        <Text size="lead" className="mt-4 text-ink-secondary">
+        <Text size="lead" className={cn("mt-4 text-ink-secondary", descriptionClassName)}>
           {description}
         </Text>
       ) : null}

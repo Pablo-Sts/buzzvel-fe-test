@@ -19,7 +19,7 @@ interface HeroProps {
 export function Hero({ eyebrow, title, description, primaryAction, secondaryAction, socialProof, image, badges }: HeroProps) {
   return (
     <section aria-labelledby="hero-title" className="overflow-x-clip bg-surface-warm py-[60px] lg:py-[100px]">
-      <Container className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-[60px]">
+      <Container className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-[60px]">
         <div className="flex flex-col md:max-w-[600px] lg:max-w-none lg:flex-1">
           <Overline>{eyebrow}</Overline>
           <Heading as="h1" id="hero-title" size="display-1" className="mt-4">
@@ -56,14 +56,17 @@ function HeroVisual({ image, badges }: Pick<HeroProps, "image" | "badges">) {
   return (
     // Rendered first on mobile, as in the mobile frame.
     <div className="relative order-first mx-auto w-[calc(100%-16px)] max-w-[500px] self-start lg:order-none lg:mx-0 lg:w-[500px] lg:shrink-0">
-      {/* Decorative shapes behind the photo */}
-      <div aria-hidden="true" className="absolute top-[4.6%] left-[90%] h-[90%] w-[17.8%] rounded-2xl bg-accent-soft" />
+      {/* Decorative shapes behind the photo (positions measured on each Figma frame) */}
       <div
         aria-hidden="true"
-        className="absolute top-[77.5%] left-[-9%] aspect-square w-[21.2%] rounded-full bg-brand-soft"
+        className="absolute top-[33px] -right-[17px] bottom-[23px] w-10 rounded-2xl bg-accent-soft lg:top-6 lg:-right-[39px] lg:bottom-7 lg:w-[89px]"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute top-[80%] left-[-5.5%] aspect-square w-[18.5%] rounded-full bg-brand-soft lg:top-[77.5%] lg:left-[-9%] lg:w-[21.2%]"
       />
 
-      <div className="relative aspect-[500/520] overflow-hidden rounded-3xl bg-brand-soft">
+      <div className="relative aspect-[346/380] overflow-hidden rounded-3xl bg-brand-soft lg:aspect-[500/520]">
         <Image
           src={image.src}
           alt={image.alt}
@@ -82,7 +85,7 @@ function HeroVisual({ image, badges }: Pick<HeroProps, "image" | "badges">) {
         <span className="text-body text-ink">{badges.courses.label}</span>
       </div>
 
-      <div className="absolute right-[-18px] bottom-[7%] flex items-center gap-2 rounded-xl bg-surface px-4 py-3 shadow-float motion-safe:animate-float motion-safe:[animation-delay:-3s]">
+      <div className="absolute right-[-18px] bottom-9 flex items-center gap-2 rounded-xl bg-surface px-4 py-3 shadow-float motion-safe:animate-float motion-safe:[animation-delay:-3s]">
         <span className="flex gap-0.5" aria-hidden="true">
           {Array.from({ length: 5 }, (_, index) => (
             <StarIcon key={index} />

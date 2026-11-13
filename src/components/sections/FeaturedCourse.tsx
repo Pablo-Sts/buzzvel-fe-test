@@ -10,9 +10,10 @@ interface FeaturedCourseProps {
 export function FeaturedCourse({ id, course }: FeaturedCourseProps) {
   return (
     <Section id={id} tone="brand" aria-labelledby="featured-title">
-      <Container className="flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-[60px]">
+      {/* The desktop frame uses a 1136px content box here (16px wider than the grid). */}
+      <Container className="flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-[60px] xl:pr-16">
         <div className="relative lg:flex-1">
-          <div className="relative aspect-[362/300] overflow-hidden rounded-2xl bg-brand-soft md:aspect-[538/408]">
+          <div className="relative aspect-[362/280] overflow-hidden rounded-2xl bg-brand-soft md:aspect-[538/408]">
             <Image
               src={course.image.src}
               alt={course.image.alt}

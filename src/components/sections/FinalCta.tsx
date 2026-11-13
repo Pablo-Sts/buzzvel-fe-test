@@ -27,10 +27,11 @@ export function FinalCta({ title, description, avatars, primaryAction, secondary
       <Decorations />
       <Container className="relative flex max-w-[720px] flex-col items-center text-center lg:px-8">
         <AvatarStack avatars={avatars} size={40} ringClassName="border-highlight" />
-        <Heading id="cta-title" size="display-2" className="mt-8">
+        {/* Desktop spacing follows the Figma boxes (94px heading, 43px paragraph). */}
+        <Heading id="cta-title" size="display-2" className="mt-8 lg:mt-[30px]">
           {title}
         </Heading>
-        <Text size="lead" className="mt-4 text-ink-secondary">
+        <Text size="lead" className="mt-4 text-ink-secondary lg:mt-[15px]">
           {description}
         </Text>
         <div className="mt-10 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">

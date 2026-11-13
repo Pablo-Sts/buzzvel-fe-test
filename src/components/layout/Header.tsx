@@ -14,7 +14,7 @@ export function Header({ links, login, cta }: HeaderProps) {
     <header className="sticky top-0 z-40 border-b border-line bg-surface-warm">
       <Container className="relative grid h-[68px] grid-cols-[1fr_auto] items-center lg:h-[69px] lg:grid-cols-[1fr_auto_1fr]">
         <a href="#top" className="w-fit rounded-sm text-ink" aria-label="Luma, back to top">
-          <LogoIcon />
+          <LogoIcon className="block" />
         </a>
 
         <nav aria-label="Main" className="hidden lg:block">

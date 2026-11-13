@@ -21,7 +21,7 @@ export function Categories({ id, eyebrow, title, description, categories }: Cate
           description={description}
           className="max-w-[560px]"
         />
-        <ul className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+        <ul className="mt-12 grid gap-4 lg:mt-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-5">
           {categories.map((category, index) => (
             <li key={category.id} className="flex">
               <CategoryCard category={category} index={index + 1} />

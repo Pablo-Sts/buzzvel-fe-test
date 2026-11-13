@@ -67,7 +67,7 @@ export function TextAreaField({ id, label, error, className, ...textareaProps }:
   return (
     <FieldShell id={id} label={label} error={error}>
       <textarea
-        className={cn(controlBase, controlState(Boolean(error)), "min-h-[120px] resize-y py-3.5", className)}
+        className={cn(controlBase, controlState(Boolean(error)), "min-h-[100px] resize-y py-3.5 lg:min-h-[120px]", className)}
         {...a11yProps(id, error)}
         {...textareaProps}
       />

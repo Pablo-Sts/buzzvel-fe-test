@@ -77,6 +77,44 @@ public/images/        photos exported from the Figma file
 | Menu open state not designed | Full-height panel under the header with the nav links and both CTAs; the close icon matches the menu icon's stroke | — |
 | People section copy is lorem ipsum | Kept as in the design | Not mine to rewrite for a fidelity test. |
 
+## Pixel-perfect check
+
+`pnpm visual-diff` compares the rendered page with the Figma frames, section by section. It works like a visual regression test, with the design as the baseline:
+
+1. Figma exports of each section go in `design/reference/{desktop,mobile}/<section>.png`. They are not committed, because the test design is confidential. Desktop exports at 0.8x are fine; the script scales the render to match.
+2. Playwright (system Chrome) opens the page at the frame widths (1280 px and 402 px) with animations frozen, fonts loaded and every lazy image decoded. It then screenshots each section element.
+3. For each section the script reports the **height delta** against the Figma frame (layout and spacing drift) and the **share of mismatched pixels** (pixelmatch, anti-aliasing ignored). It also writes `*.diff.png` (red pixels) and `*.overlay.png` (50% onion skin) to `design/diff/`.
+
+```bash
+pnpm build && pnpm start      # or pnpm dev
+pnpm visual-diff --url=http://localhost:3000 [--only=mobile] [--section=hero]
+```
+
+I used it to close the gaps one section at a time, measuring element positions on the reference images rather than eyeballing:
+
+- Mobile paragraph colours.
+- Mobile spacing in "people", "contact", "categories" and "footer".
+- The hero photo's mobile aspect ratio (346×380) and its decorative shapes.
+- The 1136 px content box Figma uses in "featured" and "testimonial".
+- The collage's left alignment and its separate horizontal/vertical scale on mobile.
+
+Final result:
+
+| Section | Desktop height Δ | Desktop mismatch | Mobile height Δ | Mobile mismatch |
+| --- | --- | --- | --- | --- |
+| header | 0 px | 1.1% | 0 px | 0.2% |
+| hero | 0 px | 0.9% | +2 px | 1.3% |
+| categories | +1 px | 2.4% | −5 px | 1.5% |
+| featured | 0 px | 2.0% | +6 px | 3.6% |
+| how-it-works | +1 px | 2.5% | −1 px | 1.6% |
+| testimonial | 0 px | 2.4% | +3 px | 3.3% |
+| people | 0 px | 2.7% | +3 px | 12.1% |
+| contact | +2 px | 1.7% | −6 px | 2.6% |
+| final-cta | +1 px | 1.7% | +3 px | 1.7% |
+| footer | −2 px | 2.1% | −1 px | 0.9% |
+
+What remains is mostly font rasterisation: Figma and Chrome render text slightly differently. The mobile people collage is the exception. Figma's mobile frame resizes each photo individually, and only its outer column sizes were available to me. I approximated them with one horizontal and one vertical scale factor, so individual photos are a few pixels off.
+
 ## Quality checks
 
 - `pnpm lint`, `pnpm typecheck`, `pnpm test` (9 tests) and `pnpm build` all pass.

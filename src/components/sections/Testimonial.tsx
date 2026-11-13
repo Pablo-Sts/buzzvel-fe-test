@@ -13,7 +13,8 @@ export function Testimonial({ testimonial, stats }: TestimonialProps) {
       <VisuallyHidden>
         <h2 id="testimonial-title">What learners say</h2>
       </VisuallyHidden>
-      <Container className="flex flex-col gap-[60px] lg:flex-row lg:items-center lg:justify-between lg:gap-10">
+      {/* The desktop frame uses a 1136px content box here (16px wider than the grid). */}
+      <Container className="flex flex-col gap-[60px] lg:flex-row lg:items-center lg:justify-between lg:gap-10 xl:pr-16">
         <figure className="max-w-[600px] lg:flex-1">
           <QuoteIcon className="text-brand" />
           <blockquote className="mt-4 text-quote text-ink">
@@ -38,7 +39,8 @@ export function Testimonial({ testimonial, stats }: TestimonialProps) {
           {stats.map((stat) => (
             // dt must precede dd in the markup; column-reverse shows the value first.
             <div key={stat.label} className="flex flex-col-reverse justify-end">
-              <dt className="mt-1 text-body text-ink-tertiary">{stat.label}</dt>
+              {/* Desktop frame: 25px label box (4px top padding) holding a 24px line. */}
+              <dt className="mt-1 text-body text-ink-tertiary lg:h-[21px]">{stat.label}</dt>
               <dd className="text-display-1 whitespace-nowrap text-brand">{stat.value}</dd>
             </div>
           ))}
