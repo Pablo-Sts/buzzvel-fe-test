@@ -19,7 +19,9 @@ pnpm dev                 # http://localhost:3000
 | `pnpm start`     | Serve the production build                          |
 | `pnpm lint`      | ESLint (Next.js core-web-vitals + TypeScript rules)  |
 | `pnpm typecheck` | Generates route types and runs `tsc --noEmit`        |
-| `pnpm test`      | Vitest + Testing Library                            |
+| `pnpm test`      | Vitest + Testing Library: unit, behaviour and axe accessibility tests |
+| `pnpm test:a11y` | Browser accessibility audit (axe + keyboard checks) against a running server |
+| `pnpm visual-diff` | Pixel-perfect comparison with the Figma exports (see below) |
 
 ## Project structure
 
@@ -37,8 +39,10 @@ src/
   types/              content contracts shared by the data layer and the UI
   data/               mock content for the page
 public/images/        photos exported from the Figma file
+  test/axe.ts         axe-core helper for the jsdom accessibility tests
 scripts/
   visual-diff.mjs     pixel-perfect check: site vs. Figma exports (Playwright + pixelmatch)
+  a11y-audit.mjs      browser accessibility audit (Playwright + axe-core)
 design/
   reference/          Figma exports for the check (PNGs not committed; README.md explains how to export them)
   diff/               generated diff/overlay images (not committed)
@@ -53,7 +57,7 @@ design/
 - **Design tokens from Figma variables.** Colours, shadows and the full type scale (Figma text styles, mobile → desktop) are defined once in `globals.css` (`@theme` + `@utility`). Components use semantic names (`text-ink-secondary`, `text-display-3`, `bg-surface-warm`).
 - **Exact assets.** All photos and icons were downloaded from the Figma file through the Figma MCP server. The SVG icons were turned into typed React components with the paths kept verbatim (`components/ui/icons.tsx`). Photos are served through `next/image`, which produces responsive AVIF/WebP with correct `sizes`. Only the hero image is preloaded, as the LCP element.
 - **Same fonts as the prototype, self-hosted.** Inter and Plus Jakarta Sans variable woff2 files (latin subset, from Fontsource, OFL licence) are loaded with `next/font/local`. There is no third-party font request, and `display: swap` uses size-adjusted fallbacks to avoid layout shift.
-- **The people collage keeps the design's geometry.** Column offsets and photo sizes are copied from Figma and scaled together with a single CSS variable (`--s`), so the composition is identical on mobile and desktop.
+- **The people collage keeps the design's geometry.** Column offsets and photo sizes are copied from Figma. They are scaled with CSS variables (`--sx`/`--sy`), measured on the mobile frame, so each breakpoint keeps the composition of its own frame.
 
 ### Interactions
 
@@ -69,6 +73,23 @@ design/
 - `dl` for the stats, `figure`/`blockquote` for the testimonial.
 - Descriptive `alt` text on content photos and `alt=""` on decorative ones.
 - Visually hidden context where the visible text is ambiguous, for example "Explore *Product Design courses*" and "Rated 4.9 out of 5".
+- Colours that measured just under WCAG AA in Figma were nudged to pass (see the deviations table).
+
+#### Accessibility tests
+
+The rules above are enforced by tests at two levels:
+
+| Level | Command | What it checks |
+| --- | --- | --- |
+| Component and page (jsdom) | `pnpm test` | **axe-core**, WCAG 2.2 A/AA plus best practices, run on the whole page and on the open mobile menu. Also checks: landmarks; skip link as the first link; a single `h1`; every `section` labelled by a heading; `alt` on every image; category links named by their purpose; stats as `dl`; testimonial as `figure`. **Keyboard behaviour:** the menu opens with Enter, announces `aria-expanded` and its name, closes on Escape, returns focus and closes after a link is chosen. **Form:** errors linked with `aria-describedby` and `aria-invalid`, focus moves to the first invalid field, the result is announced in a live region. |
+| Real browser (Chrome) | `pnpm test:a11y` | **axe-core in Chrome**, so computed styles are checked too, including **colour contrast**. It audits 4 states: desktop 1280, mobile 402, mobile menu open, and the contact form with errors. **Keyboard:** the skip link is the first tab stop, is visible on focus and moves to `<main>`; every control shows a focus indicator. |
+
+Result: 0 violations in every state, on the local production build and on the live Vercel URL:
+
+```bash
+pnpm build && pnpm start
+pnpm test:a11y --url=http://localhost:3000     # or the deployed URL
+```
 
 ## Where I deviated from the design (and why)
 
@@ -146,7 +167,8 @@ On desktop, every section matches the Figma height within 1 px (the remaining pi
 
 ## Quality checks
 
-- `pnpm lint`, `pnpm typecheck`, `pnpm test` (9 tests) and `pnpm build` all pass.
+- `pnpm lint`, `pnpm typecheck`, `pnpm test` (20 tests, including axe accessibility tests) and `pnpm build` all pass.
+- **Accessibility audited in a real browser.** `pnpm test:a11y` found 0 axe violations (WCAG 2.2 AA, including contrast) in 4 page states, and all keyboard checks passed. See [Accessibility tests](#accessibility-tests).
 - **Design fidelity, measured.** `pnpm visual-diff` compared every section against 1x Figma exports at 1280 and 402 px; see [Pixel-perfect check](#pixel-perfect-check). On desktop every section is within 1 px of the Figma height with at most 1.8% mismatched pixels. On mobile every section is within 3 px. The last run's numbers are in [`design/visual-diff-report.json`](design/visual-diff-report.json).
 - **Tablet (768 px), checked visually.** The design has no tablet frame, so I reviewed it in the browser and confirmed there is no horizontal scroll at any width.
 - Checked keyboard-only navigation of the menu and form.
@@ -187,8 +209,8 @@ I used **Claude Code** (Anthropic) as a pair programmer throughout:
 - **How I checked the output.**
   - Ran `pnpm visual-diff` after each change, until every section matched the Figma frames (numbers in [`design/visual-diff-report.json`](design/visual-diff-report.json)).
   - Compared the page side by side with the design at desktop, tablet and mobile widths in a browser.
-  - Exercised the menu and the form with the keyboard.
-  - Ran lint, type-check, unit tests, the production build and Lighthouse.
+  - Exercised the menu and the form with the keyboard, and covered that behaviour with automated tests (Testing Library + axe-core in jsdom, plus axe in real Chrome).
+  - Ran lint, type-check, unit and accessibility tests, the production build and Lighthouse.
   - Reviewed the code so I can explain every part of it.
 
 **Approximate time spent:** about 1 h 40 min, developing and validating the page with AI assistance.
