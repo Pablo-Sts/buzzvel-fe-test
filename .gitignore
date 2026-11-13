@@ -44,3 +44,6 @@ next-env.d.ts
 /design/diff/
 # Figma exports used by `pnpm visual-diff` (kept local: the test design is confidential)
 /design/reference/**/*.png
+
+# personal notes (video script etc.), not part of the submission
+/notes/
