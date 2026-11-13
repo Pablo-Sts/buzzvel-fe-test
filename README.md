@@ -87,9 +87,20 @@ public/images/        photos exported from the Figma file
 | | Performance | Accessibility | Best practices | SEO |
 | --- | --- | --- | --- | --- |
 | Desktop | 100 | 100 | 100 | 100 |
-| Mobile (simulated slow 4G) | 94 | 100 | 100 | 100 |
+| Mobile (simulated slow 4G) | 95 | 100 | 100 | 100 |
 
-The mobile LCP is about 3.0 s. The LCP element is the hero photo, which is preloaded and served as responsive WebP/AVIF.
+**About mobile LCP (≈2.9 s simulated, ≈0.27 s measured unthrottled).** The LCP element is the hero photo. It is in the initial HTML, loaded eagerly with `fetchpriority="high"`, and served as AVIF at the rendered size: 17 KB, down from 24 KB as WebP. I measured each change separately (median of 3 Lighthouse runs):
+
+| Change | LCP (sim.) | Result |
+| --- | --- | --- |
+| Baseline (WebP, `preload`) | 2.87 s | — |
+| `fetchpriority="high"` instead of `preload` | 2.87 s | kept: correct hint, Lighthouse no longer flags it |
+| AVIF output | 2.87–3.01 s | kept: ~30% fewer image bytes for real users |
+| `experimental.inlineCss` | 3.01 s | dropped: no LCP gain, and the CSS is no longer cacheable |
+| No preload for the body font | 2.95 s, FCP 0.92 → 1.24 s | dropped: worse |
+| Removing `cacheComponents` / `partialPrefetching` | 2.87 s | dropped: same JS size |
+
+What remains is Lighthouse's bandwidth simulation. It counts every request started before LCP, and most of that is the ~143 KB of React/Next.js runtime that any App Router page ships. A real browser fetches those scripts at low priority, after the high-priority hero image.
 
 ## Known gaps
 

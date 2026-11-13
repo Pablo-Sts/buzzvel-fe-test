@@ -68,7 +68,8 @@ function HeroVisual({ image, badges }: Pick<HeroProps, "image" | "badges">) {
           src={image.src}
           alt={image.alt}
           fill
-          preload
+          loading="eager"
+          fetchPriority="high"
           sizes="(min-width: 1024px) 500px, (min-width: 540px) 500px, calc(100vw - 56px)"
           className="object-cover"
         />
