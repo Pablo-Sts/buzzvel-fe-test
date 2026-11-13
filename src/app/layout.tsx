@@ -2,12 +2,19 @@ import type { Metadata, Viewport } from "next";
 import { inter, plusJakartaSans } from "./fonts";
 import "./globals.css";
 
+/** Absolute base for canonical/OpenGraph URLs: explicit env, then Vercel's production domain, then local. */
+function siteUrl(): string {
+  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  return "http://localhost:3000";
+}
+
 const title = "Luma — Practical online courses that move you forward";
 const description =
   "Practical courses taught by people who do the work every day. Learn design, technology, business and more — one focused lesson at a time.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  metadataBase: new URL(siteUrl()),
   title,
   description,
   applicationName: "Luma",
