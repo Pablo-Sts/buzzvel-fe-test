@@ -213,4 +213,4 @@ I used **Claude Code** (Anthropic) as a pair programmer throughout:
   - Ran lint, type-check, unit and accessibility tests, the production build and Lighthouse.
   - Reviewed the code so I can explain every part of it.
 
-**Approximate time spent:** about 1 h 40 min, developing and validating the page with AI assistance.
+**Approximate time spent:** about 1 h 50 min, developing and validating the page with AI assistance.
